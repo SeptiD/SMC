@@ -1,15 +1,61 @@
+import java.sql.Time;
+
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
+import com.pi4j.io.gpio.GpioPinDigitalInput;
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
+import com.pi4j.io.gpio.PinPullResistance;
 import com.pi4j.io.gpio.PinState;
 import com.pi4j.io.gpio.RaspiPin;
+import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
+import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 
 public class Main {
+	public static long startTime;
+	public static long totalTime;
 	
 	public static void main(String[] args) throws InterruptedException {
 		// TODO Auto-generated method stub
+		
 		final GpioController gpio = GpioFactory.getInstance();
-		GpioPinDigitalOutput Motor1A = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_04,"Motor1a",PinState.LOW);
+		GpioPinDigitalOutput trig = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_27,"Trig",PinState.LOW);
+		final GpioPinDigitalInput echo = gpio.provisionDigitalInputPin(RaspiPin.GPIO_25, PinPullResistance.PULL_DOWN);
+		
+		//long startTime;
+		
+		 echo.addListener(new GpioPinListenerDigital() {
+	            @Override
+	            public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
+	                // display pin state on console
+	                if(event.getState().isHigh())
+	                {
+	                	Main.startTime = System.currentTimeMillis();
+	                }
+	                else
+	                {
+	                	Main.totalTime = System.currentTimeMillis()-Main.startTime;
+	                	long distance = 17150*(Main.totalTime/1000);
+	                	System.out.println("Distanta "+ distance);
+	                }
+	            }
+
+	        });
+
+		
+		int counter = 0;
+		while(counter<20)
+		{
+			trig.setState(PinState.LOW);
+			Thread.sleep(1);
+			trig.setState(PinState.HIGH);
+			Thread.sleep((long) 0.01);
+			trig.setState(PinState.LOW);
+			
+			Thread.sleep(100);
+		}
+		
+		
+		/*GpioPinDigitalOutput Motor1A = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_04,"Motor1a",PinState.LOW);
 		GpioPinDigitalOutput Motor1B = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_05,"Motor1b",PinState.LOW);
 		GpioPinDigitalOutput Motor1E = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_06,"Motor1e",PinState.HIGH);
 		
@@ -44,8 +90,9 @@ public class Main {
 		System.out.println("Now stop");
 		Motor1E.setState(PinState.LOW);
 		Motor2E.setState(PinState.LOW);
-
+*/
 		gpio.shutdown();
+		
 	}
 
 }
