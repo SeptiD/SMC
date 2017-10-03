@@ -40,7 +40,7 @@ public class Sensor {
                 }
                 else{
                 	totalTime = System.nanoTime()-startTime;
-                	distance = 0.017*(totalTime*1000);
+                	distance = 0.017*(totalTime/1000);
                 	System.out.println("Distanta "+ distance);
                 }
             }

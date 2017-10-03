@@ -13,28 +13,28 @@ public class Main {
 			boolean checker = true;
 			while (checker == true) {
 				System.out.println("Going forwards");
-				myCar.moveForward();
+				//myCar.moveForward();
 
-				Thread.sleep(100);
+				Thread.sleep(1000);
 
 				if ((distance = myCar.getActualFrontDistance()) < 12.5 && myCar.getLastFrontDistance() < 12.5) {
-					checker = false;
+					//checker = false;
 				}
 				System.out.println("Distance" + distance);
-
-				System.out.println("Stop car");
-				myCar.stopCar();
-
-				Thread.sleep(3000);
-
-				System.out.println("Turn right");
-				myCar.turnRight();
-				Thread.sleep(5000);
-
-				myCar.stopCar();
-
-				Thread.sleep(3000);
 			}
+			System.out.println("Stop car");
+			myCar.stopCar();
+
+			Thread.sleep(3000);
+
+			System.out.println("Turn right");
+			myCar.turnRight();
+			Thread.sleep(5000);
+
+			myCar.stopCar();
+
+			Thread.sleep(3000);
+
 		}
 	
 		gpio.shutdown();
