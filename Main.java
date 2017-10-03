@@ -46,7 +46,7 @@ public class Main {
 	                else
 	                {
 	                	Main.totalTime = System.nanoTime()-Main.startTime;
-	                	distance = 0.017*(Main.totalTime*1000);
+	                	distance = 0.017*(Main.totalTime/1000);
 	                	System.out.println("Distanta "+ distance);
 	                }
 	            }
