@@ -9,6 +9,7 @@ public class Main {
 		final GpioController gpio = GpioFactory.getInstance();
 		Car myCar = Car.getCar(gpio);
 		double distance;
+		for(int i=0;i<=1;i++){
 		boolean checker = true;
 		while(checker == true){
 			System.out.println("Going forwards");
@@ -19,10 +20,21 @@ public class Main {
 			if((distance=myCar.getActualFrontDistance())<12.5 && myCar.getLastFrontDistance()<12.5){
 				checker = false;
 			}
-			System.out.println(distance);
+			System.out.println("Distance"+distance);
 		}
 		System.out.println("Stop car");
 		myCar.stopCar();
+		
+		Thread.sleep(1000);
+		
+		System.out.println("Turn right");
+		myCar.turnRight();
+		Thread.sleep(1000);
+		
+		myCar.stopCar();
+		
+		Thread.sleep(1000);
+		}
 		
 	
 		gpio.shutdown();
